@@ -23,4 +23,16 @@ public class OrderService {
     public List<Order> getOrdersByStudent(Long studentId) {
         return orderRepository.findByStudentId(studentId);
     }
+
+    public Double getTotalRevenue() {
+        List<Order> successfulOrders = orderRepository.findByPaymentStatus("SUCCESS");
+
+        double total = 0;
+
+        for (Order order : successfulOrders) {
+            total += order.getAmount();
+        }
+
+        return total;
+    }
 }
