@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillBridge | Learn & Grow</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header class="top"><div class="brand">Skill<span>Bridge</span></div><nav><a href="#catalog">Courses</a><a href="#my-learning">My Learning</a></nav></header>
+<section class="hero"><p class="eyebrow">YOUR NEXT SKILL STARTS HERE</p><h1>Learn something new.<br><span>Build your future.</span></h1><p>Explore courses, enroll, and track your learning progress.</p><a class="btn" href="#catalog">Explore courses</a></section>
+<main>
+<section id="catalog"><div class="section-heading"><div><p class="eyebrow">COURSE LIBRARY</p><h2>Explore courses</h2></div><span id="course-count"></span></div>
+<div class="filters"><input id="search" placeholder="Search courses..." aria-label="Search courses"><select id="category"><option value="">All categories</option><option>Programming</option><option>Web Development</option><option>Database</option><option>Tools</option></select><select id="maxPrice"><option value="">Any price</option><option value="400">Up to ₹400</option><option value="600">Up to ₹600</option><option value="800">Up to ₹800</option><option value="1000">Up to ₹1000</option></select><select id="minRating"><option value="">Any rating</option><option value="4">4+ stars</option><option value="4.5">4.5+ stars</option></select></div>
+<div id="courses" class="grid"><p>Loading courses...</p></div><div class="pagination"><button id="prev">Previous</button><span id="page-label">Page 1</span><button id="next">Next</button></div>
+</section>
+<section id="details" class="panel hidden"><button class="text-btn" id="back">← Back to courses</button><div id="detail-content"></div></section>
+<section id="my-learning"><p class="eyebrow">YOUR PROGRESS</p><h2>My Learning</h2><form id="learning-form" class="filters"><input id="studentEmail" type="email" placeholder="Enter your enrollment email" required><button class="btn" type="submit">View my courses</button></form><div id="my-courses"></div></section>
+</main>
+<footer>SkillBridge Learning Module · FIIT Project 7</footer>
+<div id="toast" role="status" class="toast"></div>
+<script src="/app.js"></script>
+</body></html>
