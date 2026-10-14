@@ -1,0 +1,126 @@
+.admin-courses {
+    min-height: 100vh;
+    padding: 35px;
+    background: #f5f3ff;
+    font-family: Arial, sans-serif;
+}
+
+.courses-header {
+    margin-bottom: 30px;
+}
+
+.courses-header h1 {
+    color: #4c1d95;
+    margin-bottom: 8px;
+}
+
+.courses-header p {
+    color: #666;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+}
+
+.course-card {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+}
+
+.course-card h2 {
+    color: #312e81;
+    margin: 18px 0;
+}
+
+.course-card p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.course-description {
+    min-height: 45px;
+}
+
+.course-card h3 {
+    color: #6d28d9;
+    margin: 18px 0;
+}
+
+.pending-badge {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.course-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.course-actions button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.approve-btn {
+    background: #16a34a;
+}
+
+.approve-btn:hover {
+    background: #15803d;
+}
+
+.reject-btn {
+    background: #dc2626;
+}
+
+.reject-btn:hover {
+    background: #b91c1c;
+}
+
+.empty-courses {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+}
+
+.empty-courses h3 {
+    color: #4c1d95;
+}
+
+.empty-courses p,
+.course-info {
+    color: #666;
+}
+
+.course-message {
+    margin-bottom: 20px;
+    padding: 12px;
+    background: #dcfce7;
+    color: #166534;
+    border-radius: 6px;
+}
+
+@media (max-width: 600px) {
+    .admin-courses {
+        padding: 20px;
+    }
+
+    .course-actions {
+        flex-direction: column;
+    }
+}

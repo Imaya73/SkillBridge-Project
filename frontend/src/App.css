@@ -321,3 +321,20 @@ font-size: 32px;
 font-size: 27px;
 }
 }
+
+
+.nav-links .login-btn,
+.nav-links .signup-btn {
+    background-color: #2563eb;
+    color: white;
+    text-decoration: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+}
+
+.nav-links .login-btn:hover,
+.nav-links .signup-btn:hover {
+    background-color: #1d4ed8;
+    color: white;
+}

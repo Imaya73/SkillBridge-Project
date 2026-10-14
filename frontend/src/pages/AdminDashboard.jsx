@@ -21,15 +21,19 @@ function AdminDashboard() {
     totalOrders: 0,
   })
 
+  const [totalUsers, setTotalUsers] = useState(0)
+  const [activeCourses, setActiveCourses] = useState(0)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
+  // Fetch dashboard statistics
   useEffect(() => {
     fetch('http://localhost:8081/api/admin/dashboard')
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Unable to load dashboard data.')
+          throw new Error('Unable to load dashboard data')
         }
+
         return response.json()
       })
       .then((data) => {
@@ -37,11 +41,51 @@ function AdminDashboard() {
           totalRevenue: Number(data.totalRevenue) || 0,
           totalOrders: Number(data.totalOrders) || 0,
         })
+      })
+      .catch((error) => {
+        console.error('Dashboard error:', error)
+        setError('Unable to connect to the dashboard backend.')
+      })
+      .finally(() => {
         setLoading(false)
       })
-      .catch(() => {
-        setError('Unable to connect to the backend.')
-        setLoading(false)
+  }, [])
+
+  // Fetch registered users
+  useEffect(() => {
+    fetch('http://localhost:8081/api/admin/users')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Unable to load users')
+        }
+
+        return response.json()
+      })
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setTotalUsers(data.length)
+        }
+      })
+      .catch((error) => {
+        console.error('Users API error:', error)
+      })
+  }, [])
+
+  // Fetch approved courses count
+  useEffect(() => {
+    fetch('http://localhost:8081/api/admin/courses/approved/count')
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Unable to load approved courses count')
+        }
+
+        return response.json()
+      })
+      .then((data) => {
+        setActiveCourses(Number(data.totalApprovedCourses) || 0)
+      })
+      .catch((error) => {
+        console.error('Courses API error:', error)
       })
   }, [])
 
@@ -58,8 +102,8 @@ function AdminDashboard() {
       value: stats.totalOrders,
     },
     {
-      name: 'Courses',
-      value: 3,
+      name: 'Approved Courses',
+      value: activeCourses,
     },
   ]
 
@@ -67,6 +111,7 @@ function AdminDashboard() {
 
   return (
     <div className="admin-page">
+      {/* Sidebar */}
       <aside className="admin-sidebar">
         <h2>SkillBridge</h2>
 
@@ -87,13 +132,24 @@ function AdminDashboard() {
         <Link to="/admin" className="admin-nav-link">
           📊 Dashboard
         </Link>
+
+        <Link to="/admin/users" className="admin-nav-link">
+          👥 Manage Users
+        </Link>
+
+        <Link to="/admin/courses" className="admin-nav-link">
+          📚 Course Approval
+        </Link>
       </aside>
 
+      {/* Main Dashboard */}
       <main className="admin-main">
         <header className="admin-header">
           <div>
             <p className="admin-label">OVERVIEW</p>
+
             <h1>Admin Dashboard</h1>
+
             <p>Monitor your SkillBridge platform.</p>
           </div>
 
@@ -110,32 +166,44 @@ function AdminDashboard() {
             <section className="admin-stats">
               <div className="admin-stat-card">
                 <div className="admin-stat-icon">💰</div>
+
                 <p>Total Revenue</p>
+
                 <h2>
                   ₹{stats.totalRevenue.toLocaleString('en-IN')}
                 </h2>
+
                 <span>Revenue recorded from orders</span>
               </div>
 
               <div className="admin-stat-card">
                 <div className="admin-stat-icon">🛒</div>
+
                 <p>Total Orders</p>
+
                 <h2>{stats.totalOrders}</h2>
+
                 <span>Total orders recorded</span>
               </div>
 
               <div className="admin-stat-card">
                 <div className="admin-stat-icon">👥</div>
+
                 <p>Total Users</p>
-                <h2>Not connected</h2>
-                <span>User data API is not available yet</span>
+
+                <h2>{totalUsers}</h2>
+
+                <span>Registered users on SkillBridge</span>
               </div>
 
               <div className="admin-stat-card">
                 <div className="admin-stat-icon">📚</div>
+
                 <p>Active Courses</p>
-                <h2>3</h2>
-                <span>Courses displayed on the home page</span>
+
+                <h2>{activeCourses}</h2>
+
+                <span>Approved courses on SkillBridge</span>
               </div>
             </section>
 
@@ -143,6 +211,7 @@ function AdminDashboard() {
             <section className="admin-charts">
               <div className="admin-chart-card">
                 <h2>Revenue Overview</h2>
+
                 <p>Total revenue from recorded orders</p>
 
                 <div className="admin-chart">
@@ -158,14 +227,9 @@ function AdminDashboard() {
                     >
                       <CartesianGrid strokeDasharray="3 3" />
 
-                      <XAxis
-                        dataKey="name"
-                        tick={{ fill: '#292347', fontSize: 13 }}
-                      />
+                      <XAxis dataKey="name" />
 
-                      <YAxis
-                        tick={{ fill: '#292347', fontSize: 12 }}
-                      />
+                      <YAxis />
 
                       <Tooltip
                         formatter={(value) => [
@@ -187,7 +251,8 @@ function AdminDashboard() {
 
               <div className="admin-chart-card">
                 <h2>Platform Statistics</h2>
-                <p>Orders and displayed courses</p>
+
+                <p>Orders and approved courses</p>
 
                 <div className="admin-chart">
                   <ResponsiveContainer width="100%" height="100%">
@@ -204,20 +269,16 @@ function AdminDashboard() {
                         {orderChartData.map((entry, index) => (
                           <Cell
                             key={entry.name}
-                            fill={chartColors[index % chartColors.length]}
+                            fill={
+                              chartColors[index % chartColors.length]
+                            }
                           />
                         ))}
                       </Pie>
 
                       <Tooltip />
 
-                      <Legend
-                        formatter={(value) => (
-                          <span style={{ color: '#292347' }}>
-                            {value}
-                          </span>
-                        )}
-                      />
+                      <Legend />
                     </PieChart>
                   </ResponsiveContainer>
                 </div>
@@ -229,13 +290,13 @@ function AdminDashboard() {
               <h2>Platform Overview</h2>
 
               <p>
-                Revenue and order information are loaded from the
-                SkillBridge backend API. User statistics are not
-                connected yet.
+                Revenue, orders, users and approved course details
+                are displayed on the dashboard.
               </p>
 
               <div className="admin-overview-row">
                 <span>Backend Connection</span>
+
                 <strong className="admin-connected">
                   Connected
                 </strong>
@@ -243,11 +304,13 @@ function AdminDashboard() {
 
               <div className="admin-overview-row">
                 <span>Payment Mode</span>
+
                 <strong>Demo Checkout</strong>
               </div>
 
               <div className="admin-overview-row">
                 <span>Total Revenue</span>
+
                 <strong>
                   ₹{stats.totalRevenue.toLocaleString('en-IN')}
                 </strong>
@@ -255,7 +318,20 @@ function AdminDashboard() {
 
               <div className="admin-overview-row">
                 <span>Total Orders</span>
+
                 <strong>{stats.totalOrders}</strong>
+              </div>
+
+              <div className="admin-overview-row">
+                <span>Total Users</span>
+
+                <strong>{totalUsers}</strong>
+              </div>
+
+              <div className="admin-overview-row">
+                <span>Approved Courses</span>
+
+                <strong>{activeCourses}</strong>
               </div>
             </section>
           </>

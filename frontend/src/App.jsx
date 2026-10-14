@@ -5,6 +5,7 @@ import Checkout from './pages/Checkout'
 import OrderHistory from './pages/OrderHistory'
 import AdminDashboard from './pages/AdminDashboard'
 import AdminUsers from './pages/AdminUsers'
+import AdminCourses from './pages/AdminCourses'
 
 function Home() {
   return (
@@ -17,11 +18,17 @@ function Home() {
           <a href="#courses">Courses</a>
           <a href="#about">About</a>
           <Link to="/orders">Order History</Link>
+
           <Link to="/admin" className="login-btn">
             Admin Dashboard
           </Link>
+
           <Link to="/admin/users" className="signup-btn">
             Manage Users
+          </Link>
+
+          <Link to="/admin/courses" className="signup-btn">
+            Course Approval
           </Link>
         </div>
       </nav>
@@ -147,6 +154,8 @@ function App() {
         <Route path="/admin" element={<AdminDashboard />} />
 
         <Route path="/admin/users" element={<AdminUsers />} />
+
+        <Route path="/admin/courses" element={<AdminCourses />} />
       </Routes>
     </BrowserRouter>
   )
